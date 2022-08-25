@@ -1,0 +1,31 @@
+name: CI
+on: [push]
+
+jobs:
+  build:
+    name: CI
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Ruby and install gems
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Run tests
+        run: bundle exec rspec
+      - name: Simplecov Report
+        uses: aki77/simplecov-report-action@v1
+        with:
+         token: ${{ secrets.GITHUB_TOKEN }}
+         failedThreshold: 100
+      - name: Upload Code Coverage
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: code-coverage
+          path: coverage/
+      - name: Linter
+        run: bundle exec rubocop

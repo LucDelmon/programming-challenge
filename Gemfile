@@ -8,4 +8,5 @@ gem 'rspec'
 gem 'rubocop'
 gem 'rubocop-rspec'
 gem 'activesupport'
+gem 'awesome_print'
 gem 'simplecov', require: false

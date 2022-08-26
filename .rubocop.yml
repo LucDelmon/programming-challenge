@@ -1,0 +1,16 @@
+require:
+  - rubocop-rspec
+
+AllCops:
+  NewCops: enable
+  Exclude:
+    - 'bin/setup'
+
+Metrics/ParameterLists:
+  Enabled: false
+RSpec/FilePath:
+  Enabled: false
+RSpec/ExampleLength:
+  Max: 50
+RSpec/MultipleExpectations:
+  Enabled: false

@@ -12,8 +12,8 @@ module XmlParser
 
     # @return [void]
     def call
-      search_results = XmlParser::DataLoaderService.new(Hash.from_xml(@input_file)).call
-      XmlParser::DataPresenterService.new(search_results).call
+      api_result = XmlParser::DataLoaderService.new(Hash.from_xml(@input_file)).call
+      XmlParser::DataPresenterService.new(api_result).call
     end
   end
 end

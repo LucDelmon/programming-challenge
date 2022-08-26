@@ -10,8 +10,8 @@ RSpec.describe XmlParser::XmlParserService do
   before do
     allow(Hash).to receive(:from_xml).with(input_file).and_return(:hash_file)
     allow(XmlParser::DataLoaderService).to receive(:new).with(:hash_file).and_return(loader_service)
-    allow(loader_service).to receive(:call).and_return(:search_results)
-    allow(XmlParser::DataPresenterService).to receive(:new).with(:search_results).and_return(presenter_service)
+    allow(loader_service).to receive(:call).and_return(:api_result)
+    allow(XmlParser::DataPresenterService).to receive(:new).with(:api_result).and_return(presenter_service)
   end
 
   it 'loads the search results from the provided file and call the presenter service on them' do
@@ -19,7 +19,7 @@ RSpec.describe XmlParser::XmlParserService do
     expect(Hash).to have_received(:from_xml).with(input_file).ordered
     expect(XmlParser::DataLoaderService).to have_received(:new).with(:hash_file).ordered
     expect(loader_service).to have_received(:call).ordered
-    expect(XmlParser::DataPresenterService).to have_received(:new).with(:search_results).ordered
+    expect(XmlParser::DataPresenterService).to have_received(:new).with(:api_result).ordered
     expect(presenter_service).to have_received(:call).ordered
   end
 end

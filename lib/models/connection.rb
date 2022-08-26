@@ -21,5 +21,10 @@ module XmlParser
       @train_name = train_name
       @fares = fares
     end
+
+    def to_s
+      "Starts at #{start} and ends at #{finish} on #{train_name} at #{departure_time} and arrives at #{arrival_time}.\n   " \
+        "Fares:\n      #{fares.join("\n      ")}"
+    end
   end
 end

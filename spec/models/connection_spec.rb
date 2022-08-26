@@ -36,11 +36,11 @@ RSpec.describe XmlParser::Connection do
   end
 
   describe '#duration' do
-    let(:departure_time) { '2015-07-11T22:25:00+02:00' }
-    let(:arrival_time) { '2015-07-24T10:25:00+02:00' }
+    let(:departure_time) { Time.parse('2015-07-11T22:25:00+02:00') }
+    let(:arrival_time) { Time.parse('2015-07-24T10:25:00+02:00') }
 
     it 'returns the duration of the connection' do
-      expect(connection.duration).to eq((Time.parse(arrival_time) - Time.parse(departure_time)).to_i)
+      expect(connection.duration).to eq((arrival_time - departure_time).to_i)
     end
   end
 end

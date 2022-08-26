@@ -26,7 +26,7 @@ module XmlParser
 
     # @return [Integer]
     def total_duration
-      (Time.parse(@connections.last.arrival_time) - Time.parse(@connections.first.departure_time)).to_i
+      (@connections.last.arrival_time - @connections.first.departure_time).to_i
     end
 
     private
@@ -44,9 +44,7 @@ module XmlParser
       if index == @connections.count - 1
         ''
       else
-        transition_duration = (
-          Time.parse(@connections[index + 1].departure_time) - Time.parse(@connections[index].arrival_time)
-        ).to_i
+        transition_duration = (@connections[index + 1].departure_time - @connections[index].arrival_time).to_i
         "   ↳ #{XmlParser::Helpers.duration_as_h_m_string(transition_duration)} wait\n   "
       end
     end

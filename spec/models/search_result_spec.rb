@@ -3,8 +3,8 @@
 require 'rspec'
 
 RSpec.describe XmlParser::SearchResult do
-  let(:arrival_time) { '2015-07-12T06:48:00+02:00' }
-  let(:departure_time) { '2015-07-12T09:57:00+02:00' }
+  let(:arrival_time) { Time.parse('2015-07-12T06:48:00+02:00') }
+  let(:departure_time) { Time.parse('2015-07-12T09:57:00+02:00') }
   let(:connection1) { instance_double(XmlParser::Connection, to_s: 'connection_1_to_s', arrival_time: arrival_time) }
   let(:connection2) { instance_double(XmlParser::Connection, to_s: 'connection_2_to_s', departure_time: departure_time) }
   let(:search_result) do
@@ -13,7 +13,7 @@ RSpec.describe XmlParser::SearchResult do
       connections: [connection1, connection2]
     )
   end
-  let(:expected_transition_duration) { (Time.parse(departure_time) - Time.parse(arrival_time)).to_i }
+  let(:expected_transition_duration) { (departure_time - arrival_time).to_i }
 
   describe '#to_s' do
     before do
@@ -49,8 +49,8 @@ RSpec.describe XmlParser::SearchResult do
       instance_double(
         XmlParser::Connection,
         to_s: 'connection_1_to_s',
-        departure_time: '2015-07-12T06:48:00+02:00',
-        arrival_time: '2015-07-12T08:48:00+02:00'
+        departure_time: Time.parse('2015-07-12T06:48:00+02:00'),
+        arrival_time: Time.parse('2015-07-12T08:48:00+02:00')
       )
     end
 
@@ -58,14 +58,14 @@ RSpec.describe XmlParser::SearchResult do
       instance_double(
         XmlParser::Connection,
         to_s: 'connection_1_to_s',
-        departure_time: '2015-07-12T09:48:00+02:00',
-        arrival_time: '2015-07-12T13:24:00+02:00'
+        departure_time: Time.parse('2015-07-12T09:48:00+02:00'),
+        arrival_time: Time.parse('2015-07-12T13:24:00+02:00')
       )
     end
 
     it 'returns total duration of the search result' do
       expect(search_result.total_duration).to eq(
-        (Time.parse(connection2.arrival_time) - Time.parse(connection1.departure_time)).to_i
+        (connection2.arrival_time - connection1.departure_time).to_i
       )
     end
   end

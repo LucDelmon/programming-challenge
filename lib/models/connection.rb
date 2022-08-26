@@ -10,8 +10,8 @@ module XmlParser
     # @param [Array<XmlParser::Fare>] fares
     # @param [String] start
     # @param [String] finish
-    # @param [String] departure_time
-    # @param [String] arrival_time
+    # @param [Time] departure_time
+    # @param [Time] arrival_time
     # @param [String] train_name
     def initialize(start:, finish:, departure_time:, arrival_time:, train_name:, fares:)
       @start = start
@@ -30,7 +30,7 @@ module XmlParser
 
     # @return [Integer]
     def duration
-      (Time.parse(arrival_time) - Time.parse(departure_time)).to_i
+      (arrival_time - departure_time).to_i
     end
   end
 end

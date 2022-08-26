@@ -35,8 +35,8 @@ module XmlParser
         XmlParser::Connection.new(
           start: connection['Start'],
           finish: connection['Finish'],
-          departure_time: connection['DepartureTime'],
-          arrival_time: connection['ArrivalTime'],
+          departure_time: Time.parse(connection['DepartureTime']),
+          arrival_time: Time.parse(connection['ArrivalTime']),
           train_name: connection['TrainName'],
           fares: load_fares(connection['Fares']['Fare'])
         )

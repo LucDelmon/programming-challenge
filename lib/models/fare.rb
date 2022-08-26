@@ -13,5 +13,9 @@ module XmlParser
       @name = name
       @price = price
     end
+
+    def to_s
+      "#{name} - Price: #{price} GDB"
+    end
   end
 end

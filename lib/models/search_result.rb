@@ -13,5 +13,9 @@ module XmlParser
       @id = id
       @connections = connections
     end
+
+    def to_s
+      "ID: #{id}\nConnections:\n   #{connections.join("\n   ")}"
+    end
   end
 end

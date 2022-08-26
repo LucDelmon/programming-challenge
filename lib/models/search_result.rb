@@ -15,11 +15,34 @@ module XmlParser
     end
 
     def to_s
-      "ID: #{id}\nConnections (#{changes_count} train changes):\n   #{connections.join("\n   ↳\n   ")}"
+      "ID: #{id}\nConnections (#{changes_count} train changes):\n   #{connections_join}"
     end
 
+    # @return [Integer]
     def changes_count
-      connections.count - 1
+      @connections.count - 1
+    end
+
+    private
+
+    # @return [String]
+    def connections_join
+      @connections.each_with_index.map do |connection, index|
+        "#{connection}\n" + connection_transition(index)
+      end.join
+    end
+
+    # @param [Integer] index
+    # @return [String]
+    def connection_transition(index)
+      if index == @connections.count - 1
+        ''
+      else
+        transition_duration = (
+          Time.parse(@connections[index + 1].departure_time) - Time.parse(@connections[index].arrival_time)
+        ).to_i
+        "   ↳ #{XmlParser::Helpers.duration_as_h_m_string(transition_duration)} wait\n   "
+      end
     end
   end
 end

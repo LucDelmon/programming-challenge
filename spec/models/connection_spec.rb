@@ -24,7 +24,7 @@ RSpec.describe XmlParser::Connection do
 
     it 'returns all the connection info and list the fares' do
       expect(connection.to_s).to eq(
-        'Starts at start and ends at finish on train_name at departure_time and arrives at arrival_time. ' \
+        "Starts at start and ends at finish on train_name at departure_time and arrives at arrival_time.\n   " \
         "Duration: duration_string\n   " \
         "Fares:\n      fare_1_to_s\n      fare_2_to_s"
       )
@@ -39,7 +39,6 @@ RSpec.describe XmlParser::Connection do
       it 'returns the duration of the connection as hours and minutes' do
         expect(connection.duration_string).to eq('5h 33m')
       end
-
     end
 
     context 'with a duration without extra minutes' do

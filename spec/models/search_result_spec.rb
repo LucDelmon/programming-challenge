@@ -15,7 +15,7 @@ RSpec.describe XmlParser::SearchResult do
   describe '#to_s' do
     it 'returns the id and list the connections' do
       expect(search_result.to_s).to eq(
-        "ID: id\nConnections:\n   connection_1_to_s\n   connection_2_to_s"
+        "ID: id\nConnections:\n   connection_1_to_s\n   ↳\n   connection_2_to_s"
       )
     end
   end

@@ -17,3 +17,5 @@ RSpec/MultipleExpectations:
   Enabled: false
 Layout/LineLength:
   Max: 150
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false

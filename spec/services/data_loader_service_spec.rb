@@ -78,10 +78,10 @@ RSpec.describe XmlParser::DataLoaderService do
   let(:service_call) { service.call }
 
   it 'loads the data into the correct models' do
-    expect(service.call).to be_an_instance_of(Array)
+    expect(service.call).to be_an_instance_of(XmlParser::ApiResult)
     aggregate_failures do
-      expect(service.call.first).to be_an_instance_of(XmlParser::SearchResult)
-      first_search_result = service_call.first
+      expect(service.call.search_results.first).to be_an_instance_of(XmlParser::SearchResult)
+      first_search_result = service_call.search_results.first
       expect(first_search_result.id).to eq('first_id')
       expect(first_search_result.connections.first).to be_an_instance_of(XmlParser::Connection)
       first_connection = first_search_result.connections.first
@@ -107,8 +107,8 @@ RSpec.describe XmlParser::DataLoaderService do
       expect(second_connection.fares.first).to be_an_instance_of(XmlParser::Fare)
       expect(second_connection.fares.first.name).to eq 'third_fare_name'
       expect(second_connection.fares.first.price).to eq 33.3
-      expect(service.call[1]).to be_an_instance_of(XmlParser::SearchResult)
-      second_search_result = service_call[1]
+      expect(service.call.search_results[1]).to be_an_instance_of(XmlParser::SearchResult)
+      second_search_result = service_call.search_results[1]
       expect(second_search_result.connections.first).to be_an_instance_of(XmlParser::Connection)
       expect(second_search_result.id).to eq('second_id')
       third_connection = second_search_result.connections.first

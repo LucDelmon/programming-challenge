@@ -10,9 +10,11 @@ module XmlParser
       @data_hash = data_hash
     end
 
-    # @return [Array]
+    # @return [XmlParser::ApiResult]
     def call
-      load_search_result(@data_hash['SearchResults']['SearchResult'])
+      XmlParser::ApiResult.new(
+        search_results: load_search_result(@data_hash['SearchResults']['SearchResult'])
+      )
     end
 
     private

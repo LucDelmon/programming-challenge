@@ -12,7 +12,9 @@ module XmlParser
       @search_results = search_results
     end
 
-    def quickest_result; end
+    def quickest_result
+      @search_results.min_by(&:total_duration)
+    end
 
     def cheapest_result; end
   end

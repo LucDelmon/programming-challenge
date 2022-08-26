@@ -15,7 +15,11 @@ module XmlParser
     end
 
     def to_s
-      "ID: #{id}\nConnections:\n   #{connections.join("\n   ↳\n   ")}"
+      "ID: #{id}\nConnections (#{changes_count} train changes):\n   #{connections.join("\n   ↳\n   ")}"
+    end
+
+    def changes_count
+      connections.count - 1
     end
   end
 end

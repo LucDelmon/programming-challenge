@@ -24,15 +24,13 @@ module XmlParser
 
     def to_s
       "Starts at #{start} and ends at #{finish} on #{train_name} at #{departure_time} and arrives at #{arrival_time}.\n   " \
-        "Duration: #{duration_string}\n   " \
+        "Duration: #{XmlParser::Helpers.duration_as_h_m_string(duration)}\n   " \
         "Fares:\n      #{fares.join("\n      ")}"
     end
 
-    def duration_string
-      duration = (Time.parse(arrival_time) - Time.parse(departure_time)).to_i
-      hours = duration / 3600
-      minutes = (duration % 3600) / 60
-      "#{hours}h #{minutes}m"
+    # @return [Integer]
+    def duration
+      (Time.parse(arrival_time) - Time.parse(departure_time)).to_i
     end
   end
 end

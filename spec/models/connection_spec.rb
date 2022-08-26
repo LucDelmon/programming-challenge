@@ -20,7 +20,10 @@ RSpec.describe XmlParser::Connection do
     let(:departure_time) { 'departure_time' }
     let(:arrival_time) { 'arrival_time' }
 
-    before { allow(connection).to receive(:duration_string).and_return('duration_string') }
+    before do
+      allow(connection).to receive(:duration).and_return(:duration_int)
+      allow(XmlParser::Helpers).to receive(:duration_as_h_m_string).and_return('duration_string')
+    end
 
     it 'returns all the connection info and list the fares' do
       expect(connection.to_s).to eq(
@@ -28,26 +31,16 @@ RSpec.describe XmlParser::Connection do
         "Duration: duration_string\n   " \
         "Fares:\n      fare_1_to_s\n      fare_2_to_s"
       )
+      expect(XmlParser::Helpers).to have_received(:duration_as_h_m_string).with(:duration_int)
     end
   end
 
-  describe '#duration_string' do
-    context 'with a normal duration' do
-      let(:departure_time) { '2015-07-11T22:25:00+02:00' }
-      let(:arrival_time) { '2015-07-12T03:58:00+02:00' }
+  describe '#duration' do
+    let(:departure_time) { '2015-07-11T22:25:00+02:00' }
+    let(:arrival_time) { '2015-07-24T10:25:00+02:00' }
 
-      it 'returns the duration of the connection as hours and minutes' do
-        expect(connection.duration_string).to eq('5h 33m')
-      end
-    end
-
-    context 'with a duration without extra minutes' do
-      let(:departure_time) { '2015-07-11T22:25:00+02:00' }
-      let(:arrival_time) { '2015-07-11T23:25:00+02:00' }
-
-      it 'returns the duration of the connection as hours and minutes' do
-        expect(connection.duration_string).to eq('1h 0m')
-      end
+    it 'returns the duration of the connection' do
+      expect(connection.duration).to eq((Time.parse(arrival_time) - Time.parse(departure_time)).to_i)
     end
   end
 end

@@ -69,4 +69,13 @@ RSpec.describe XmlParser::SearchResult do
       )
     end
   end
+
+  describe '#total_lowest_fare' do
+    let(:connection1) { instance_double(XmlParser::Connection, lowest_fare: 11.4) }
+    let(:connection2) { instance_double(XmlParser::Connection, lowest_fare: 2.5) }
+
+    it 'returns the sum of the lowest fare' do
+      expect(search_result.total_lowest_fare).to eq(13.9)
+    end
+  end
 end

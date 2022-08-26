@@ -16,6 +16,8 @@ module XmlParser
       @search_results.min_by(&:total_duration)
     end
 
-    def cheapest_result; end
+    def cheapest_result
+      @search_results.min_by(&:total_lowest_fare)
+    end
   end
 end

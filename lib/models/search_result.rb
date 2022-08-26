@@ -29,6 +29,11 @@ module XmlParser
       (@connections.last.arrival_time - @connections.first.departure_time).to_i
     end
 
+    # @return [Integer]
+    def total_lowest_fare
+      @connections.map(&:lowest_fare).sum
+    end
+
     private
 
     # @return [String]

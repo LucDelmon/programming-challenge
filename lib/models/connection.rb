@@ -32,5 +32,10 @@ module XmlParser
     def duration
       (arrival_time - departure_time).to_i
     end
+
+    # @return [Float]
+    def lowest_fare
+      fares.min_by(&:price).price
+    end
   end
 end

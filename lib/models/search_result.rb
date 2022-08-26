@@ -15,12 +15,18 @@ module XmlParser
     end
 
     def to_s
-      "ID: #{id}\nConnections (#{changes_count} train changes):\n   #{connections_join}"
+      "Total Duration: #{XmlParser::Helpers.duration_as_h_m_string(total_duration)}\n" \
+        "ID: #{id}\nConnections (#{changes_count} train changes):\n   #{connections_join}"
     end
 
     # @return [Integer]
     def changes_count
       @connections.count - 1
+    end
+
+    # @return [Integer]
+    def total_duration
+      (Time.parse(@connections.last.arrival_time) - Time.parse(@connections.first.departure_time)).to_i
     end
 
     private

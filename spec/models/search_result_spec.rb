@@ -13,19 +13,21 @@ RSpec.describe XmlParser::SearchResult do
       connections: [connection1, connection2]
     )
   end
+  let(:expected_transition_duration) { (Time.parse(departure_time) - Time.parse(arrival_time)).to_i }
 
   describe '#to_s' do
     before do
       allow(search_result).to receive(:changes_count).and_return(4)
-      allow(XmlParser::Helpers).to receive(:duration_as_h_m_string).and_return('transition_duration')
+      allow(search_result).to receive(:total_duration).and_return(:total_duration_value)
+      allow(XmlParser::Helpers).to receive(:duration_as_h_m_string).with(expected_transition_duration).and_return('transition_duration')
+      allow(XmlParser::Helpers).to receive(:duration_as_h_m_string).with(:total_duration_value).and_return('total_duration')
     end
 
-    it 'returns the id and list the connections with the transition time when revelant' do
-      expected_duration = (Time.parse(departure_time) - Time.parse(arrival_time)).to_i
+    it 'returns the id and list the connections with the transition time when relevant' do
       expect(search_result.to_s).to eq(
-        "ID: id\nConnections (4 train changes):\n   connection_1_to_s\n   ↳ transition_duration wait\n   connection_2_to_s\n"
+        "Total Duration: total_duration\nID: id\nConnections (4 train changes):\n   " \
+        "connection_1_to_s\n   ↳ transition_duration wait\n   connection_2_to_s\n"
       )
-      expect(XmlParser::Helpers).to have_received(:duration_as_h_m_string).with(expected_duration)
     end
   end
 
@@ -39,6 +41,32 @@ RSpec.describe XmlParser::SearchResult do
 
     it 'returns the number of connections minus 1' do
       expect(search_result.changes_count).to eq(3)
+    end
+  end
+
+  describe '#total_duration' do
+    let(:connection1) do
+      instance_double(
+        XmlParser::Connection,
+        to_s: 'connection_1_to_s',
+        departure_time: '2015-07-12T06:48:00+02:00',
+        arrival_time: '2015-07-12T08:48:00+02:00'
+      )
+    end
+
+    let(:connection2) do
+      instance_double(
+        XmlParser::Connection,
+        to_s: 'connection_1_to_s',
+        departure_time: '2015-07-12T09:48:00+02:00',
+        arrival_time: '2015-07-12T13:24:00+02:00'
+      )
+    end
+
+    it 'returns total duration of the search result' do
+      expect(search_result.total_duration).to eq(
+        (Time.parse(connection2.arrival_time) - Time.parse(connection1.departure_time)).to_i
+      )
     end
   end
 end
